@@ -1,0 +1,25 @@
+1) Lets make a collection where we are creating save function when we don't have db.
+
+2) We should make a repo or storage layer, to store any entity, so that we have to call only .save() or .get() type
+functions no matter what the implementation is.
+
+3) In go for any complex data type like struct or array of int, we can use {} to declare initial value
+Like, arr:= [2]int{3,4};
+
+4) We can directly use ptr.name instead of (*ptr).name in go.
+
+5) A package living inside an internal directory can only be imported by packages that are rooted 
+    under the immediate parent directory of that internal directory.
+
+6) We break servlet of java in two major files handlers and router.
+
+7)  main.go ->creates ONE Storage ->injects into Handler ->all handlers use same storage
+
+example of handler ->
+type Handler struct {
+    storage *Storage
+    logger  *Logger
+    config  *Config
+    queue   *Queue
+}
+So, we need this.
