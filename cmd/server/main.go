@@ -13,9 +13,9 @@ func main() {
 	handler := api.NewHandler(storage)
 	router := servers.SetUpRouter(handler)
 
-	log.Println("Server running on port 8080")
+	log.Println("Server running on port 8090")
 
-	err := http.ListenAndServe(":8080", router)
+	err := http.ListenAndServe(":8090", router)
 
 	if err != nil {
 		log.Fatal("Unable to start server ", err)

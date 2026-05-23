@@ -23,3 +23,33 @@ type Handler struct {
     queue   *Queue
 }
 So, we need this.
+
+8) -> Virutal machine books some cpu resouces (like register, heap -> memory of cpu), computer memory using its
+   own os instance. In that vm process can run which books its own memory from the vm, and threads acts like workers using
+   allocaed memory to process.
+   -> OS is software layer bw user and computer hardware
+   -> CPU contains ALU, CU, Registers, Cache and System Clock.
+
+9) -> Virutal threads are mananged by software and traditional threads by OS.
+   -> TT generally doesn't leave a task in bw, it may stop in bw but will not be free.
+   -> VT can leave a task in bw, if task goes needs some IO operation.
+   -> TT context switches in some fixed time intervals but virtual threads doesn't switches without plannig.
+      It may switch when some IO or DB heavy task comes.
+   -> Some few VT can perform a lot of tasks because they have freedom of getting free before completing
+      a task and hence have virtual in their name.
+   -> for context switching TT uses system call and store in cpu registersm while for VT is handled in user
+      space with saving in jvm heap objects.
+   -> In TT memory allocated is fixed i.e. 1 MB, we can alter it. If some task exceeds this memory than 
+      StackOverflow exception is given. In VT this memory allocation automatically provides more heap chunks
+      if needed.
+    -> VT cam to solve java Project Loom problem(java's legacy blocking issue).
+
+10) -> Goroutines is a lightweight thread of execution mananged completely by Go, similar to Java's VT.
+    -> They also have dynamic memory allocation. Can grow and shrink.
+    -> Go is based on CSP model (Communicating Sequential Process) where core idea is -:
+       Independent processes communicate through message passing instead of shared memory.
+       Only 1 goroutine must own a state.
+    -> Channels are used for communication. Channels are synchronized interanally by go.
+    -> locks are also availaible and are used for simple shared data. For simple code sharing is over engineering.
+    -> Main goroutine already is present adding go keyword provides more goroutines.
+    -> When main function ends all goroutines gets killed.
