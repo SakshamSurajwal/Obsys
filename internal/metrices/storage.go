@@ -1,7 +1,10 @@
 package metrices
 
+import "sync"
+
 type Storage struct {
 	metrices []Metric
+	mu       sync.Mutex
 }
 
 func NewStorage() *Storage {
@@ -11,9 +14,16 @@ func NewStorage() *Storage {
 }
 
 func (s *Storage) SaveMetric(metric Metric) {
+	// even after channels we still need lock, because worker thread for save and other thread for read
+	// read and write can cause race condtion, here inconsistency in reading
+	// s.mu.Lock();
+	// defer s.mu.Unlock();
+
+	// now after 1 goroutine not needed this lock
+
 	s.metrices = append(s.metrices, metric)
 }
 
-func (s Storage) GetMetrics() []Metric {
+func (s *Storage) GetMetrics() []Metric {
 	return s.metrices
 }

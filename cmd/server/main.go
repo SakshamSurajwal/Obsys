@@ -4,14 +4,22 @@ import (
 	"Obsys/internal/api"
 	"Obsys/internal/metrices"
 	"Obsys/internal/servers"
+	"Obsys/internal/service"
 	"log"
 	"net/http"
 )
 
 func main() {
 	storage := metrices.NewStorage()
-	handler := api.NewHandler(storage)
+	metricService := service.NewService(storage)
+
+	metricChan := make(chan metrices.Metric, 1000)
+	queryChan := make(chan (chan []metrices.Metric), 1000)
+
+	handler := api.NewHandler(metricChan, metricService)
 	router := servers.SetUpRouter(handler)
+
+	go service.SaveWorker(metricChan, queryChan, metricService)
 
 	log.Println("Server running on port 8090")
 
