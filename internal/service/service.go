@@ -13,10 +13,12 @@ func NewService(storage *metrices.Storage) *MetricService {
 	return &MetricService{storage}
 }
 
-func (service *MetricService) SaveMetric(metric metrices.Metric) {
-	metric.Timestamp = time.Now()
+func (service *MetricService) SaveMetric(metrics []metrices.Metric) {
+	for i := range metrics {
+		metrics[i].Timestamp = time.Now()
+	}
 
-	service.storage.SaveMetric(metric)
+	service.storage.SaveMetric(metrics)
 }
 
 func (service *MetricService) GetMetric() []metrices.Metric {

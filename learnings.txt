@@ -27,15 +27,15 @@ So, we need this.
 8) 127.x.x.x address reserved for loopback, so almost every request comes to own machine.
 
 9) -> Virutal machine books some cpu resouces (like register, heap -> memory of cpu), computer memory using its
-   own os instance. In that vm process can run which books its own memory from the vm, and threads acts like workers using
-   allocaed memory to process.
+   own os instance. In that vm, process can run which books its own memory from the vm, and threads acts like workers using
+   allocated memory to process.
    -> OS is software layer bw user and computer hardware
    -> CPU contains ALU, CU, Registers, Cache and System Clock.
 
 10) -> Virutal threads are mananged by software and traditional threads by OS.
    -> TT generally doesn't leave a task in bw, it may stop in bw but will not be free.
    -> VT can leave a task in bw, if task goes needs some IO operation.
-   -> TT context switches in some fixed time intervals but virtual threads doesn't switches without plannig.
+   -> TT context switches in some fixed time intervals but virtual threads doesn't switches without planning.
       It may switch when some IO or DB heavy task comes.
    -> Some few VT can perform a lot of tasks because they have freedom of getting free before completing
       a task and hence have virtual in their name.
@@ -62,3 +62,15 @@ So, we need this.
 13) for { select { ... } }, for is infinite loop for events, and select tells to wait for more than 1 channels simulteously.
     If no select is there than it will wait for the first channel until the first channel gets element then proceeds
     to next.
+
+14) We can use batch processing of write requests to achive high throughput. Writing one by one is expensive.
+    Reasons-:
+    Without Batching: If you execute 1,000 separate inserts, the database may have to flush data to the disk 
+    1,000 times to commit each individual transaction.
+    With Batching: The database groups those 1,000 inserts into a single transaction. It writes the 
+    data to memory (buffers) and executes a single, sequential write to the disk log at the very end.
+    Single Processing: 100 inserts = 100 requests sent + 100 responses waited for. If network latency is even 2ms, 
+    that's at least 200ms spent just sitting on the wire.
+    Batch Processing: 100 inserts = 1 request sent + 1 response waited for. You pay the network latency tax exactly once.
+
+    Some data may lost in batching, but for metrices small data loss is accetable.
