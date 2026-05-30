@@ -24,13 +24,15 @@ type Handler struct {
 }
 So, we need this.
 
-8) -> Virutal machine books some cpu resouces (like register, heap -> memory of cpu), computer memory using its
+8) 127.x.x.x address reserved for loopback, so almost every request comes to own machine.
+
+9) -> Virutal machine books some cpu resouces (like register, heap -> memory of cpu), computer memory using its
    own os instance. In that vm process can run which books its own memory from the vm, and threads acts like workers using
    allocaed memory to process.
    -> OS is software layer bw user and computer hardware
    -> CPU contains ALU, CU, Registers, Cache and System Clock.
 
-9) -> Virutal threads are mananged by software and traditional threads by OS.
+10) -> Virutal threads are mananged by software and traditional threads by OS.
    -> TT generally doesn't leave a task in bw, it may stop in bw but will not be free.
    -> VT can leave a task in bw, if task goes needs some IO operation.
    -> TT context switches in some fixed time intervals but virtual threads doesn't switches without plannig.
@@ -44,7 +46,7 @@ So, we need this.
       if needed.
     -> VT cam to solve java Project Loom problem(java's legacy blocking issue).
 
-10) -> Goroutines is a lightweight thread of execution mananged completely by Go, similar to Java's VT.
+11) -> Goroutines is a lightweight thread of execution mananged completely by Go, similar to Java's VT.
     -> They also have dynamic memory allocation. Can grow and shrink.
     -> Go is based on CSP model (Communicating Sequential Process) where core idea is -:
        Independent processes communicate through message passing instead of shared memory.
@@ -53,3 +55,10 @@ So, we need this.
     -> locks are also availaible and are used for simple shared data. For simple code sharing is over engineering.
     -> Main goroutine already is present adding go keyword provides more goroutines.
     -> When main function ends all goroutines gets killed.
+
+12) in go arrays, int, string, struct are passed by value, maps, slices, Channels are by passed by value but have 
+    copy of reference too.
+
+13) for { select { ... } }, for is infinite loop for events, and select tells to wait for more than 1 channels simulteously.
+    If no select is there than it will wait for the first channel until the first channel gets element then proceeds
+    to next.
