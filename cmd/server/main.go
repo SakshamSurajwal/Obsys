@@ -16,7 +16,7 @@ func main() {
 	metricChan := make(chan metrices.Metric, 1000)
 	queryChan := make(chan (chan []metrices.Metric), 1000)
 
-	handler := api.NewHandler(metricChan, metricService)
+	handler := api.NewHandler(metricChan, queryChan, metricService)
 	router := servers.SetUpRouter(handler)
 
 	go service.SaveWorker(metricChan, queryChan, metricService)

@@ -13,9 +13,10 @@ type Handler struct {
 	service    *service.MetricService
 }
 
-func NewHandler(metricChan chan metrices.Metric, service *service.MetricService) *Handler {
+func NewHandler(metricChan chan metrices.Metric, queryChan chan (chan []metrices.Metric), service *service.MetricService) *Handler {
 	return &Handler{
 		metricChan: metricChan,
+		queryChan:  queryChan,
 		service:    service,
 	}
 }
