@@ -1,0 +1,103 @@
+1) Lets make a collection where we are creating save function when we don't have db.
+
+2) We should make a repo or storage layer, to store any entity, so that we have to call only .save() or .get() type
+functions no matter what the implementation is.
+
+3) In go for any complex data type like struct or array of int, we can use {} to declare initial value
+Like, arr:= [2]int{3,4};
+
+4) We can directly use ptr.name instead of (*ptr).name in go.
+
+5) A package living inside an internal directory can only be imported by packages that are rooted 
+    under the immediate parent directory of that internal directory.
+
+6) We break servlet of java in two major files handlers and router.
+
+7)  main.go ->creates ONE Storage ->injects into Handler ->all handlers use same storage
+
+example of handler ->
+type Handler struct {
+    storage *Storage
+    logger  *Logger
+    config  *Config
+    queue   *Queue
+}
+So, we need this.
+
+8) 127.x.x.x address reserved for loopback, so almost every request comes to own machine.
+
+9) -> Virutal machine books some cpu resouces (like register, heap -> memory of cpu), computer memory using its
+   own os instance. In that vm, process can run which books its own memory from the vm, and threads acts like workers using
+   allocated memory to process.
+   -> OS is software layer bw user and computer hardware
+   -> CPU contains ALU, CU, Registers, Cache and System Clock.
+
+10) -> Virutal threads are mananged by software and traditional threads by OS.
+   -> TT generally doesn't leave a task in bw, it may stop in bw but will not be free.
+   -> VT can leave a task in bw, if task goes needs some IO operation.
+   -> TT context switches in some fixed time intervals but virtual threads doesn't switches without planning.
+      It may switch when some IO or DB heavy task comes.
+   -> Some few VT can perform a lot of tasks because they have freedom of getting free before completing
+      a task and hence have virtual in their name.
+   -> for context switching TT uses system call and store in cpu registersm while for VT is handled in user
+      space with saving in jvm heap objects.
+   -> In TT memory allocated is fixed i.e. 1 MB, we can alter it. If some task exceeds this memory than 
+      StackOverflow exception is given. In VT this memory allocation automatically provides more heap chunks
+      if needed.
+    -> VT cam to solve java Project Loom problem(java's legacy blocking issue).
+
+11) -> Goroutines is a lightweight thread of execution mananged completely by Go, similar to Java's VT.
+    -> They also have dynamic memory allocation. Can grow and shrink.
+    -> Go is based on CSP model (Communicating Sequential Process) where core idea is -:
+       Independent processes communicate through message passing instead of shared memory.
+       Only 1 goroutine must own a state.
+    -> Channels are used for communication. Channels are synchronized interanally by go.
+    -> locks are also availaible and are used for simple shared data. For simple code sharing is over engineering.
+    -> Main goroutine already is present adding go keyword provides more goroutines.
+    -> When main function ends all goroutines gets killed.
+
+12) in go arrays, int, string, struct are passed by value, maps, slices, Channels are by passed by value but have 
+    copy of reference too.
+
+13) for { select { ... } }, for is infinite loop for events, and select tells to wait for more than 1 channels simulteously.
+    If no select is there than it will wait for the first channel until the first channel gets element then proceeds
+    to next.
+
+14) We can use batch processing of write requests to achive high throughput. Writing one by one is expensive.
+    Reasons-:
+    Without Batching: If you execute 1,000 separate inserts, the database may have to flush data to the disk 
+    1,000 times to commit each individual transaction.
+    With Batching: The database groups those 1,000 inserts into a single transaction. It writes the 
+    data to memory (buffers) and executes a single, sequential write to the disk log at the very end.
+    Single Processing: 100 inserts = 100 requests sent + 100 responses waited for. If network latency is even 2ms, 
+    that's at least 200ms spent just sitting on the wire.
+    Batch Processing: 100 inserts = 1 request sent + 1 response waited for. You pay the network latency tax exactly once.
+
+    Some data may lost in batching, but for metrices small data loss is accetable.
+
+15) Instrumentation is writing necessary code along with libraries and monitoring is using the code to monitor application.
+
+16) go.mod -> Tells about the dependencies present and assist installing at once
+    go.sum -> includes checksums and helps to pull dependencies from cache when we run again afte first time.
+
+17) Context in go.
+
+18) Prometheus for query wise view of metric. Graffana can use prometheus, postgres or many other dbs to show all the 
+    information related to system on one page. Basically we can create a dashboard using Graffana.
+
+19) A Windows Service is a program that:
+
+    Runs in the background
+    No terminal needed
+    Starts automatically (optional)
+    Can keep running after logout
+
+    Win + R and enter services.msc and you can open running or stopped window service.
+    Linux equivalent is daemon.
+
+20) Why docker?
+    someone trying this project must install:
+    Go, PostgreSQL, Prometheus, Grafana and configure everything manually.
+
+    Docker lets you package:
+    Application +   Dependencies + Runtime
