@@ -101,3 +101,30 @@ So, we need this.
 
     Docker lets you package:
     Application +   Dependencies + Runtime
+
+21) Docker compose -> To run multi container application.
+
+22) Docker compose can help you create service and that service is accessible by its name mapped to 
+    a private IP. Some IPs are available for private use on your local. So no need for localhost:8080,
+    you can run service_name:8080.
+
+23) 
+       Deployment
+           ↓
+       Creates Pods
+           ↓
+       Pods run application
+           ↓
+       Service exposes Pods
+           ↓
+       ConfigMap provides configuration
+           ↓
+       Secret provides passwords/API keys
+
+24) Minikube is for testing and everything is on one node.
+    Minikube Node
+├── API Server
+├── Scheduler
+├── etcd
+├── Controller Manager
+└── Your Pods
