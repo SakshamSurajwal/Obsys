@@ -22,8 +22,9 @@ func main() {
 	}
 
 	password := os.Getenv("PASSWORD")
+	log.Println(password)
 
-	db, err := database.NewPostgresDB("postgres://postgres:" + password + "@localhost:5432/postgres")
+	db, err := database.NewPostgresDB("postgres://postgres:" + password + "@host.docker.internal:5432/postgres")
 
 	if err != nil {
 		log.Fatal(err)

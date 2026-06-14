@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: obsys
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: obsys
+
+  template:
+    metadata:
+      labels:
+        app: obsys
+
+    spec:
+      containers:
+      - name: obsys
+        image: obsys:latest
+        imagePullPolicy: IfNotPresent
+
+        ports:
+        - containerPort: 8090

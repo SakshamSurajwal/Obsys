@@ -1,0 +1,55 @@
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: obsys-postgres
+
+    environment:
+      POSTGRES_USER: saksham
+      POSTGRES_PASSWORD: pass123
+      POSTGRES_DB: obsys
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  obsys:
+    build: .
+
+    container_name: obsys
+
+    ports:
+      - "8090:8090"
+
+    depends_on:
+      - postgres
+
+  prometheus:
+    image: prom/prometheus
+
+    container_name: prometheus
+
+    ports:
+      - "9090:9090"
+
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+    depends_on:
+      - obsys
+
+  grafana:
+    image: grafana/grafana
+  
+    container_name: grafana
+  
+    ports:
+      - "3001:3000"
+  
+    depends_on:
+      - prometheus
+
+volumes:
+  postgres_data:
